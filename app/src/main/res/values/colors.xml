@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="orange_top">#FFA55A2E</color>
+    <color name="orange_glow">#FFF2924A</color>
+    <color name="white_mid">#FFFFFFFF</color>
+    <color name="teal_glow">#FF12A79E</color>
+    <color name="teal_bottom">#FF0A6E69</color>
+    <color name="black_card">#FF0E0E0E</color>
+    <color name="teal_accent">#FF16B8AC</color>
+    <color name="text_white">#FFFFFFFF</color>
+    <color name="text_white_70">#B3FFFFFF</color>
+
+    <!-- Media picker -->
+    <color name="import_active">#FFC7EA46</color>
+    <color name="import_inactive">#FF4A4A4A</color>
+    <color name="text_black">#FF0E0E0E</color>
+    <color name="toggle_gray">#FF3A3A3C</color>
+    <color name="picker_bg">#FF000000</color>
+    <color name="bottom_bar_bg">#FF141414</color>
+    <color name="thumb_placeholder">#FF2A2A2A</color>
+    <color name="selection_overlay">#66000000</color>
+    <color name="duration_badge_bg">#B3000000</color>
+
+    <!-- Editor / import preview -->
+    <color name="editor_bg">#FF000000</color>
+    <color name="editor_track_bg">#FF111111</color>
+    <color name="editor_ruler_tick">#66FFFFFF</color>
+    <color name="editor_ruler_label">#B3FFFFFF</color>
+    <color name="editor_playhead">#FFFFFFFF</color>
+</resources>

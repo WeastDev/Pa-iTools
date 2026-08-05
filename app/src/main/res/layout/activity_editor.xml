@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/editor_bg">
+
+    <!-- ===== 1. Top bar: X + Export + more (···) ===== -->
+    <ImageButton
+        android:id="@+id/btnClose"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_editor_x_btn"
+        android:contentDescription="@string/close_editor"
+        android:padding="10dp"
+        android:src="@drawable/ic_close"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnMore"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/bg_editor_top_btn"
+        android:contentDescription="@string/more_options"
+        android:padding="10dp"
+        android:src="@drawable/ic_more_horiz"
+        app:layout_constraintTop_toTopOf="@id/btnClose"
+        app:layout_constraintBottom_toBottomOf="@id/btnClose"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/btnExport"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_editor_top_btn"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="@id/btnClose"
+        app:layout_constraintBottom_toBottomOf="@id/btnClose"
+        app:layout_constraintEnd_toStartOf="@id/btnMore">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_export"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:text="@string/export"
+            android:textColor="@color/text_black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- ===== 2. Preview area (photo / video) ===== -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidePreviewMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <FrameLayout
+        android:id="@+id/previewContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/black"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/guidePreviewMax"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/btnClose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imgPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            tools:ignore="ContentDescription" />
+
+        <VideoView
+            android:id="@+id/videoPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <!-- Only visible while in fullscreen mode, lets the user collapse back -->
+        <ImageButton
+            android:id="@+id/btnExitFullscreen"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_editor_x_btn"
+            android:contentDescription="@string/toggle_fullscreen"
+            android:padding="10dp"
+            android:src="@drawable/ic_fullscreen_toggle"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <!-- ===== 3. Transport row: belok-kiri / belok-kanan (kiri), play (tengah mutlak), fullscreen (kanan) =====
+         Dibuat pakai ConstraintLayout (bukan LinearLayout+weight) supaya tombol Play selalu
+         berada persis di tengah baris, tidak peduli lebar grup kiri (undo/redo) atau kanan
+         (fullscreen) - inilah yang sebelumnya membuat posisi tombol Play meleset dari tengah. -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/transportRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="6dp"
+        app:layout_constraintTop_toBottomOf="@id/previewContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Grup kiri: tombol belok-kiri & belok-kanan, menempel ke start -->
+        <LinearLayout
+            android:id="@+id/turnButtonsGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnPlayPause"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlayPause">
+
+            <ImageButton
+                android:id="@+id/btnUndo"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/undo"
+                android:src="@drawable/ic_undo" />
+
+            <ImageButton
+                android:id="@+id/btnRedo"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="14dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/redo"
+                android:src="@drawable/ic_redo" />
+
+        </LinearLayout>
+
+        <!-- Tombol Play: dikunci ke tengah ConstraintLayout (start=parent start, end=parent end) -->
+        <ImageButton
+            android:id="@+id/btnPlayPause"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/play"
+            android:src="@drawable/ic_play"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Tombol fullscreen: menempel ke end -->
+        <ImageButton
+            android:id="@+id/btnFullscreen"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/toggle_fullscreen"
+            android:src="@drawable/ic_fullscreen_toggle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnPlayPause"
+            app:layout_constraintBottom_toBottomOf="@id/btnPlayPause" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- ===== 4. Duration label + ruler ===== -->
+    <TextView
+        android:id="@+id/txtDuration"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="monospace"
+        android:text="00:00 / 00:00"
+        android:textColor="@color/text_white"
+        android:textSize="10sp"
+        app:layout_constraintTop_toTopOf="@id/rulerFrame"
+        app:layout_constraintBottom_toBottomOf="@id/rulerFrame"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/rulerFrame"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/transportRow"
+        app:layout_constraintStart_toEndOf="@id/txtDuration"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <HorizontalScrollView
+            android:id="@+id/scrollRuler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/rulerTicksContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="120dp" />
+
+        </HorizontalScrollView>
+    </FrameLayout>
+
+    <!-- Playhead: SELALU di tengah layar (tidak ikut scroll). Ruler & clip strip yang
+         bergeser di baliknya saat user scrub / saat video berjalan. -->
+    <View
+        android:id="@+id/viewPlayhead"
+        android:layout_width="1.5dp"
+        android:layout_height="0dp"
+        android:background="@color/editor_playhead"
+        android:elevation="10dp"
+        app:layout_constraintTop_toTopOf="@id/rulerFrame"
+        app:layout_constraintBottom_toBottomOf="@id/rowAddText"
+        app:layout_constraintStart_toStartOf="@id/rulerFrame"
+        app:layout_constraintEnd_toEndOf="@id/rulerFrame" />
+
+    <!-- ===== 5. Volume + clip strip (cover, thumbnails, add button) ===== -->
+    <LinearLayout
+        android:id="@+id/clipStripRow"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintTop_toBottomOf="@id/rulerFrame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnVolume"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/volume"
+            android:src="@drawable/ic_volume" />
+
+        <SeekBar
+            android:id="@+id/seekVolume"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="100"
+            android:progressBackgroundTint="@color/editor_ruler_tick"
+            android:progressTint="@color/white_mid"
+            android:thumbTint="@color/white_mid"
+            android:visibility="gone" />
+
+        <!-- Cover thumbnail + divider: FIXED di kiri, tidak ikut scroll bersama ruler/klip,
+             supaya perhitungan center-playhead terhadap ruler tidak meleset. -->
+        <LinearLayout
+            android:id="@+id/coverArea"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" />
+
+        <HorizontalScrollView
+            android:id="@+id/scrollClips"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/clipStripContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+
+        </HorizontalScrollView>
+
+        <ImageButton
+            android:id="@+id/btnAddClip"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_clip_strip_add"
+            android:contentDescription="@string/add_clip"
+            android:padding="6dp"
+            android:src="@drawable/ic_plus_dark" />
+
+    </LinearLayout>
+
+    <!-- ===== 6. Add music row ===== -->
+    <LinearLayout
+        android:id="@+id/rowAddMusic"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/bg_track_row_btn"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:clipChildren="false"
+        app:layout_constraintTop_toBottomOf="@id/clipStripRow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/musicContentGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:id="@+id/iconMusicLogo"
+                android:src="@drawable/ic_music_note"
+                tools:ignore="ContentDescription" />
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_plus"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/add_music"
+                android:textColor="@color/text_white"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- ===== 7. Add text row ===== -->
+    <LinearLayout
+        android:id="@+id/rowAddText"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/bg_track_row_btn"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:clipChildren="false"
+        app:layout_constraintTop_toBottomOf="@id/rowAddMusic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/textContentGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/bg_toggle_gray"
+                android:gravity="center"
+                android:id="@+id/iconTextLogo"
+                android:text="T"
+                android:textColor="@color/text_white"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_plus"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:text="@string/add_text"
+                android:textColor="@color/text_white"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,28 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp" android:height="28dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- clapper lid, tilted like an open clapperboard -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.6"
+        android:strokeLineJoin="round"
+        android:strokeLineCap="round"
+        android:pathData="M2.8,9.3 L4.2,4.6 L20.3,7.4 L19.3,10.0 Z" />
+    <!-- stripe dividers on the lid -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.3"
+        android:strokeLineCap="round"
+        android:pathData="M8.9,5.5 L7.8,9.5 M14.6,6.5 L13.5,10.4" />
+    <!-- rounded body -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.6"
+        android:pathData="M3,9.8 h18 c0.7,0 1.2,0.55 1.2,1.2 v8.2 c0,0.7 -0.55,1.2 -1.2,1.2 H3 c-0.7,0 -1.2,-0.55 -1.2,-1.2 v-8.2 c0,-0.7 0.55,-1.2 1.2,-1.2 Z" />
+    <!-- play triangle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M10,13.5 L15.6,16.3 L10,19.1 Z" />
+</vector>

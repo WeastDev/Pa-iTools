@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">iTools</string>
+
+    <!-- Media picker -->
+    <string name="album">Album</string>
+    <string name="cloud">Cloud</string>
+    <string name="stock">Stock</string>
+    <string name="filter_all">All</string>
+    <string name="filter_video">Video</string>
+    <string name="filter_photo">Photo</string>
+    <string name="please_add_a_clip">Please add a clip</string>
+    <string name="import_label">Import</string>
+    <string name="remove_clip">Remove clip</string>
+    <string name="back">Back</string>
+    <string name="permission_needed">iTools butuh izin akses foto dan video untuk menampilkan galeri kamu</string>
+
+    <!-- Editor / import preview -->
+    <string name="export">Export</string>
+    <string name="more_options">Lainnya</string>
+    <string name="play">Play</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="previous_clip">Klip sebelumnya</string>
+    <string name="next_clip">Klip berikutnya</string>
+    <string name="toggle_fullscreen">Layar penuh</string>
+    <string name="volume">Volume</string>
+    <string name="cover">Cover</string>
+    <string name="add_music">Add music</string>
+    <string name="add_text">Add text</string>
+    <string name="add_clip">Tambah klip</string>
+    <string name="close_editor">Tutup</string>
+</resources>

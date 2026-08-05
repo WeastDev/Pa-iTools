@@ -1,0 +1,17 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="28dp" android:height="28dp" android:viewportWidth="24" android:viewportHeight="24">
+    <!-- squircle frame: kotak dengan lengkungan besar di setiap sudut -->
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.7"
+        android:pathData="M8,3 H16 A5,5 0 0,1 21,8 V16 A5,5 0 0,1 16,21 H8 A5,5 0 0,1 3,16 V8 A5,5 0 0,1 8,3 Z" />
+    <!-- sun -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M8.1,9 m-1.6,0 a1.6,1.6 0,1 1,3.2 0 a1.6,1.6 0,1 1,-3.2 0" />
+    <!-- mountains -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M5,18 L9.6,11.4 12.1,14.6 14.6,11.9 19,18 Z" />
+</vector>
